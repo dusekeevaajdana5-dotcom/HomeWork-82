@@ -2,6 +2,7 @@ import express from "express";
 import Artist from "../models/Artist";
 
 
+
 const artistRouter = express.Router();
 
 
@@ -28,8 +29,11 @@ artistRouter.post("/", async (req, res) => {
       await artist.save();
       res.send(artist);
     }
-    catch {
-
+    catch (e) {
+        if (e instanceof Error) {
+         return res.status(400).send({error: e.message});
+        }
+        res.sendStatus(500);
   }
 });
 

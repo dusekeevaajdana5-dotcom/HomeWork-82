@@ -5,7 +5,7 @@ const rootPath = __dirname;
 const config = {
     rootPath: rootPath,
     publicPath: path.join(rootPath, "public"),
-    mongoDbUrl : "mongodb://localhost/",
+    mongoDbUrl : "mongodb://localhost/music_app",
 };
 
 export default config;
