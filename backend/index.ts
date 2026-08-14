@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import config from "./config";
 import artistRouter from "./routers/Artists";
 import albumRouter from "./routers/Album";
+import trackRouter from "./routers/Track";
 
 const app = express();
 const port = 8080;
@@ -14,6 +15,7 @@ app.use(express.static("public"));
 
 app.use("/artists", artistRouter);
 app.use("/album", albumRouter);
+app.use("/track", trackRouter);
 
 
 

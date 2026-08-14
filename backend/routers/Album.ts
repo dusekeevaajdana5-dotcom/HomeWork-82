@@ -1,10 +1,19 @@
 import express from "express";
 import Album from "../models/Album";
 
+
 const albumRouter = express.Router();
 
 albumRouter.get("/", async (req, res) => {
     try {
+        const {artists_id} = req.query;
+
+        if (artists_id) {
+            const albums = await Album.findById({artist: req.query.artist as string});
+            return res.send(albums);
+        }
+
+
         const albums = await Album.find();
         res.send(albums);
     } catch {
