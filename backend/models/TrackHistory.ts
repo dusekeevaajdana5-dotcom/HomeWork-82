@@ -8,7 +8,11 @@ const TrackHistorySchema = new mongoose.Schema({
         ref: "User",
         required: true
     },
-    // track:
+    track: {
+        type: Schema.Types.ObjectId,
+        ref: "Track",
+        required: true
+    },
     datetime: Date,
 });
 

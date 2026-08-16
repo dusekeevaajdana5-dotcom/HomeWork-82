@@ -25,7 +25,7 @@ usersRouter.post("/", async (req, res) => {
 });
 
 
-usersRouter.post ("/session", async (req, res) => {
+usersRouter.post ("/sessions", async (req, res) => {
     const user = await User.findOne({username: req.body.username})
     if (!user) {
         return res.status(400).send({message: "User not found"});
@@ -37,8 +37,9 @@ usersRouter.post ("/session", async (req, res) => {
     }
 
     user.token = randomUUID();
+    await user.save();
 
     res.send({message: "Username and password are correct!", user});
-})
+});
 
 export default usersRouter;
