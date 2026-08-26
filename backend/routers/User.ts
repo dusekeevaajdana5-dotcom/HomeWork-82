@@ -1,6 +1,6 @@
 import express from "express";
 import User from "../models/User";
-import {UserInfo} from "../../types";
+import {UserInfo} from "../types";
 import bcrypt from "bcrypt";
 import {randomUUID} from "node:crypto";
 
@@ -36,10 +36,13 @@ usersRouter.post ("/sessions", async (req, res) => {
         return res.status(400).send({message: "Invalid Password"});
     }
 
-    user.token = randomUUID();
-    await user.save();
+    const token = randomUUID();
+    await user.updateOne(
+        { _id: user._id },
+        { $set: { token } }
+    );
 
-    res.send({message: "Username and password are correct!", user});
+   return res.send({message: "Username and password are correct!", token});
 });
 
 export default usersRouter;

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import {UserInfo} from "../../types";
+import {UserInfo} from "../types";
 import bcrypt from "bcrypt";
 
 const SALT_WORK_FACTOR = 10;

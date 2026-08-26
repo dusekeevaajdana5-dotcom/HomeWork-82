@@ -21,7 +21,7 @@ const AlbumSchema = new mongoose.Schema({
         }
     },
     year: {
-        type: String,
+        type: Number,
         required: true,
     },
     image: String
