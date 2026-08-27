@@ -1,7 +1,7 @@
 export interface Artist {
     name: string;
     image: string;
-    description: string;
+    date: string;
 };
 
 export interface UserInfo {

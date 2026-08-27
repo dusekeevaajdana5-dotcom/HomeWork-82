@@ -13,7 +13,7 @@ const TrackSchema = new mongoose.Schema({
         required: true,
     },
     duration : {
-        type: String,
+        type: Number,
         required: true,
     },
     number : {

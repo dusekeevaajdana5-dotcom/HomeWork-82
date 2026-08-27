@@ -1,9 +1,9 @@
 import {configureStore} from '@reduxjs/toolkit'
-// import {messagesReducer} from "../features/messages/messagesSlice.ts";
+import {artistsReducer} from "../features/artists/artistsSlice.ts";
 
 export const store = configureStore({
     reducer: {
-        // messages: messagesReducer
+        artists: artistsReducer,
     }
 })
 

@@ -10,8 +10,8 @@ artistRouter.get("/", async (req, res) => {
     try {
         const artists = await Artist.find();
         res.send(artists);
-    } catch {
-        res.sendStatus(500);
+    } catch (error) {
+        res.status(500).send({ message: "Ошибка сервера", error });
     }
 });
 
@@ -19,7 +19,7 @@ artistRouter.post("/", async (req, res) => {
     const artistData = {
         name: req.body.name,
         image: req.body.image,
-        description: req.body.description,
+        date: req.body.date,
     }
 
     const artist = new Artist(artistData);
