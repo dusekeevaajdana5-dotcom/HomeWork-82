@@ -1,15 +1,16 @@
 import express from "express";
 import Album from "../models/Album";
+import { imagesUpload } from "../multer";
 
 
 const albumRouter = express.Router();
 
 albumRouter.get("/", async (req, res) => {
     try {
-        const {artists_id} = req.query;
+        const { artist } = req.query;
 
-        if (artists_id) {
-            const albums = await Album.findById({artist: req.query.artist as string});
+        if (artist) {
+            const albums = await Album.find({ artist: artist as string });
             return res.send(albums);
         }
 
@@ -35,19 +36,23 @@ albumRouter.get("/:id", async (req, res) => {
     }
 });
 
-albumRouter.post("/", async (req, res) => {
-    const albumData = {
-        name: req.body.name,
-        artist: req.body.artist,
-        year: req.body.year,
-        image: req.body.image
-    }
-
-    const album = new Album(albumData);
-
+albumRouter.post("/", imagesUpload.single('image'), async (req, res) => {
     try {
+        if (!req.body) {
+            return res.status(400).send({error: "Error"});
+        }
+
+        const albumData = {
+            name: req.body.name,
+            artist: req.body.artist,
+            year: Number(req.body.year),
+            image: req.file ? req.file.filename : null
+        };
+
+        const album = new Album(albumData);
+
         await album.save();
-        res.send(album);
+        res.status(201).send(album);
     }
     catch (e) {
         if (e instanceof Error) {
@@ -56,5 +61,6 @@ albumRouter.post("/", async (req, res) => {
         res.sendStatus(500);
     }
 });
+
 
 export default albumRouter;
