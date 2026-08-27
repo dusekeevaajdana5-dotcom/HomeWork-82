@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Avatar, Box, Typography, CircularProgress, Card, CardContent, CardActionArea } from "@mui/material";
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
-import { selectArtists, selectRegisterLoading } from "./artistsSlice.ts";
+import {selectArtists, selectArtistsLoading} from "./artistsSlice.ts";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { register } from "./artistsThunk.ts"
 import Grid from '@mui/material/Grid';
@@ -10,7 +10,7 @@ import {useNavigate} from "react-router-dom";
 const Artists = () => {
     const dispatch = useAppDispatch();
     const artists = useAppSelector(selectArtists);
-    const registerLoading = useAppSelector(selectRegisterLoading);
+    const artistLoading = useAppSelector(selectArtistsLoading);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -41,9 +41,9 @@ const Artists = () => {
                 Artists
             </Typography>
 
-            {registerLoading && <CircularProgress sx={{ mt: 2 }} />}
+            {artistLoading && <CircularProgress sx={{ mt: 2 }} />}
 
-            {!registerLoading && artists && artists.length > 0 && (
+            {!artistLoading && artists && artists.length > 0 && (
                 <Grid
                     container
                     spacing={3}
@@ -118,7 +118,7 @@ const Artists = () => {
                 </Grid>
             )}
 
-            {!registerLoading && (!artists || artists.length === 0) && (
+            {!artistLoading && (!artists || artists.length === 0) && (
                 <Typography color="text.secondary" sx={{ mt: 2 }}>
                     There is no artist!
                 </Typography>

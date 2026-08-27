@@ -4,12 +4,12 @@ import { register } from "./artistsThunk.ts";
 
 interface State {
     artists: ArtistMutation[];
-    registerLoading: boolean;
+    artistsLoading: boolean;
 }
 
 const initialState: State = {
     artists: [],
-    registerLoading: false,
+    artistsLoading: false,
 };
 
 const artistSlice = createSlice({
@@ -19,22 +19,22 @@ const artistSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(register.pending, (state) => {
-                state.registerLoading = true;
+                state.artistsLoading = true;
             })
             .addCase(register.fulfilled, (state, { payload }) => {
-                state.registerLoading = false;
+                state.artistsLoading = false;
                 state.artists = payload as ArtistMutation[];
             })
             .addCase(register.rejected, (state) => {
-                state.registerLoading = false;
+                state.artistsLoading = false;
             });
     },
     selectors: {
         selectArtists: (state: State) => state.artists,
-        selectRegisterLoading: (state: State) => state.registerLoading,
+        selectArtistsLoading : (state: State) => state.artistsLoading,
     },
 });
 
 export const artistsReducer = artistSlice.reducer;
-export const { selectArtists, selectRegisterLoading } = artistSlice.selectors;
+export const { selectArtists, selectArtistsLoading } = artistSlice.selectors;
 
