@@ -7,14 +7,14 @@ import {randomUUID} from "node:crypto";
 const usersRouter = express.Router();
 
 usersRouter.post("/", async (req, res) => {
-    const userData: UserInfo = {
+    const userData: Omit<UserInfo, "token" | "role"> = {
         username : req.body.username,
         password : req.body.password,
-        token: randomUUID()
-    }
+    };
 
     try {
         const user = new User (userData);
+        await user.generateToken();
         await user.save();
         res.send(user);
     } catch (e) {

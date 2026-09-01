@@ -16,10 +16,10 @@ app.use(express.json());
 app.use(express.static("public"));
 
 app.use("/artists", artistRouter);
-app.use("/album", albumRouter);
-app.use("/track", trackRouter);
+app.use("/albums", albumRouter);
+app.use("/tracks", trackRouter);
 app.use("/users", usersRouter);
-app.use("/trackHistory", trackHistoryRouter);
+app.use("/trackHistories", trackHistoryRouter);
 
 
 
