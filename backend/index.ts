@@ -9,7 +9,7 @@ import usersRouter from "./routers/User";
 import trackHistoryRouter from "./routers/TrackHistory";
 
 const app = express();
-const port = 8080;
+const port = 8088;
 
 app.use(cors());
 app.use(express.json());

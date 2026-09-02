@@ -1,5 +1,6 @@
 import {Router} from "express";
 import Track from "../models/Track";
+import auth from "../middlewares/auth";
 
 
 const trackRouter = Router();
@@ -23,7 +24,7 @@ trackRouter.get('/', async (req, res) => {
 });
 
 
-trackRouter.post('/', async (req, res) => {
+trackRouter.post('/', auth, async (req, res) => {
     const trackData = {
         name: req.body.name,
         album: req.body.album,

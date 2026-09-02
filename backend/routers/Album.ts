@@ -1,6 +1,7 @@
 import express from "express";
 import Album from "../models/Album";
 import { imagesUpload } from "../multer";
+import auth from "../middlewares/auth";
 
 
 const albumRouter = express.Router();
@@ -36,7 +37,7 @@ albumRouter.get("/:id", async (req, res) => {
     }
 });
 
-albumRouter.post("/", imagesUpload.single('image'), async (req, res) => {
+albumRouter.post("/", auth, imagesUpload.single('image'), async (req, res) => {
     try {
         if (!req.body) {
             return res.status(400).send({error: "Error"});
