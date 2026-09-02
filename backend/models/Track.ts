@@ -19,6 +19,10 @@ const TrackSchema = new mongoose.Schema({
     number : {
         type: Number,
         required: true,
+    },
+    isPublished: {
+        type: Boolean,
+        default: false
     }
 });
 

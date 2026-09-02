@@ -3,6 +3,7 @@ import User from "../models/User";
 import {UserInfo} from "../types";
 import bcrypt from "bcrypt";
 import {randomUUID} from "node:crypto";
+import auth, {RequestWithUser} from "../middlewares/auth";
 
 const usersRouter = express.Router();
 
@@ -43,6 +44,21 @@ usersRouter.post ("/sessions", async (req, res) => {
     );
 
    return res.send({message: "Username and password are correct!", token});
+});
+
+
+usersRouter.delete("/sessions", auth, async (expressReq, res) => {
+    const req = expressReq as RequestWithUser;
+    try {
+        const user = req.user;
+
+        user.generateToken();
+        await user.save();
+
+        res.send({ message: "Successful logout" });
+    } catch (e) {
+        res.status(500).send({ error: "Error during logout" });
+    }
 });
 
 export default usersRouter;

@@ -1,3 +1,4 @@
+import  { HydratedDocument, Model } from "mongoose";
 import mongoose from "mongoose";
 import { UserInfo } from "../types";
 import bcrypt from "bcrypt";
@@ -5,7 +6,13 @@ import crypto from "crypto";
 
 const SALT_WORK_FACTOR = 10;
 
-const UserSchema = new mongoose.Schema<UserInfo>({
+interface UserMethods {
+    generateToken(): void;
+}
+
+type UserModel = Model<UserInfo, {}, UserMethods>;
+
+const UserSchema = new mongoose.Schema<UserInfo, UserMethods, UserModel>({
     username: {
         type: String,
         required: true,
@@ -28,7 +35,7 @@ const UserSchema = new mongoose.Schema<UserInfo>({
 });
 
 
-UserSchema.methods.generateToken = function () {
+UserSchema.methods.generateToken = function (this: HydratedDocument<UserInfo, UserMethods>) {
     this.token = crypto.randomUUID();
 };
 
@@ -48,5 +55,5 @@ UserSchema.set("toJSON", {
     }
 });
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.model<UserInfo, UserModel>("User", UserSchema);
 export default User;

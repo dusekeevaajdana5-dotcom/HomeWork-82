@@ -1,7 +1,7 @@
 import express from "express";
 import Album from "../models/Album";
 import { imagesUpload } from "../multer";
-import auth from "../middlewares/auth";
+import auth, {RequestWithUser} from "../middlewares/auth";
 
 
 const albumRouter = express.Router();
@@ -60,6 +60,57 @@ albumRouter.post("/", auth, imagesUpload.single('image'), async (req, res) => {
             return res.status(400).send({error: e.message});
         }
         res.sendStatus(500);
+    }
+});
+
+albumRouter.delete("/:id", auth, imagesUpload.single('image'), async (req, res) => {
+    try {
+        const reqWithUser = req as  RequestWithUser;
+        const user = reqWithUser.user;
+
+
+        if (user.role !== "administrator") {
+            res.status(403).send({ error: "You cannot delete the album" });
+            return;
+        }
+
+
+        const deletedAlbum = await Album.findByIdAndDelete(reqWithUser.params.id);
+
+        if (!deletedAlbum) {
+            res.status(404).send({ error: "Album not found" });
+            return;
+        }
+
+        res.send({ message: "Successfully deleted" });
+    } catch (e) {
+        res.status(500).send({ error: "Ошибка сервера" });
+    }
+});
+
+albumRouter.patch("/:id/togglePublished", auth,  async (req, res) => {
+    try {
+        const reqWithUser = req as  RequestWithUser;
+
+        const user = reqWithUser.user;
+
+         if (user.role !== "administrator") {
+          return res.status(403).send({ error: "You cannot publish the album" });
+         }
+
+         const album = await Album.findById(reqWithUser.params.id);
+
+         if (!album) {
+             return res.status(404).send({ error: "Album not found" });
+         }
+
+         album.isPublished = !album.isPublished;
+         await album.save();
+         res.send({ message: "Successfully published", album});
+
+
+    }  catch (e) {
+        res.status(500).send({ error: "Ошибка сервера" });
     }
 });
 
