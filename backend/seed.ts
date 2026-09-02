@@ -42,13 +42,15 @@ const run = async () => {
         const justin = await Artist.create({
             name: "Justin Timberlake",
             image: null,
-            date: "1981"
+            date: "1981",
+            isPublished: true
         });
 
         const theWeeknd = await Artist.create({
             name: "The Weeknd",
             image: null,
-            date: "1990"
+            date: "1990",
+            isPublished: false
         });
 
 
@@ -57,13 +59,15 @@ const run = async () => {
                 name: "FutureSex/LoveSounds",
                 artist: justin._id,
                 year: 2006,
-                image: null
+                image: null,
+                isPublished: true
             },
             {
                 name: "The 20/20 Experience",
                 artist: justin._id,
                 year: 2013,
-                image: null
+                image: null,
+                isPublished: false
             }
         ]);
 
@@ -73,7 +77,8 @@ const run = async () => {
                 name: "After Hours",
                 artist: theWeeknd._id,
                 year: 2020,
-                image: null
+                image: null,
+                isPublished: true
             }
         ]);
 
@@ -83,13 +88,15 @@ const run = async () => {
                 name: "SexyBack",
                 album: futureSexAlbum._id,
                 duration: 242,
-                number: 1
+                number: 1,
+                isPublished: true
             },
             {
                 name: "Mirrors",
                 album: experienceAlbum._id,
                 duration: 485,
-                number: 1
+                number: 1,
+                isPublished: false
             }
         ]);
 
@@ -99,13 +106,15 @@ const run = async () => {
                 name: "Blinding Lights",
                 album: afterHoursAlbum._id,
                 duration: 200,
-                number: 1
+                number: 1,
+                isPublished: true
             },
             {
                 name: "Save Your Tears",
                 album: afterHoursAlbum._id,
                 duration: 215,
-                number: 2
+                number: 2,
+                isPublished: true
             }
         ]);
 
