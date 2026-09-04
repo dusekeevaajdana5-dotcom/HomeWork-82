@@ -1,11 +1,21 @@
 import { useEffect } from "react";
-import { Avatar, Box, Typography, CircularProgress, Card, CardContent, CardActionArea } from "@mui/material";
+import {
+    Avatar,
+    Box,
+    Typography,
+    CircularProgress,
+    Card,
+    CardContent,
+    CardActionArea,
+    Button,
+} from "@mui/material";
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import {selectArtists, selectArtistsLoading} from "./artistsSlice.ts";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { register } from "./artistsThunk.ts"
 import Grid from '@mui/material/Grid';
 import {useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom"
 
 const Artists = () => {
     const dispatch = useAppDispatch();
@@ -112,17 +122,29 @@ const Artists = () => {
                                         </Typography>
                                     </CardContent>
                                 </CardActionArea>
+
                             </Card>
                         </Grid>
                     ))}
                 </Grid>
             )}
 
+            <Button
+                color="primary"
+                component={Link}
+                to={'/artists/new'}
+                variant="contained"
+                sx={{m: 10}}
+            >
+                Add Artist
+            </Button>
+
             {!artistLoading && (!artists || artists.length === 0) && (
                 <Typography color="text.secondary" sx={{ mt: 2 }}>
                     There is no artist!
                 </Typography>
             )}
+
         </Box>
     );
 };

@@ -6,7 +6,7 @@ export interface everyArtists {
 export interface ArtistMutation {
    image: string;
    name: string;
-   date: number;
+   date: string;
 }
 
 export interface Album {

@@ -1,5 +1,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axiosApi from "../../axiosApi.ts";
+import type {ArtistMutation} from "../../interfaces.ts";
+
 
 
 export const register = createAsyncThunk(
@@ -8,4 +10,16 @@ export const register = createAsyncThunk(
         const { data } = await axiosApi.get("/artists");
         return data;
     }
+)
+
+export const createArtist = createAsyncThunk<void, ArtistMutation>(
+    "artists/create",
+    async (artist) => {
+        const newArtist = {
+            ...artist,
+            date: Number(artist.date)
+        }
+        await axiosApi.post("/artists", newArtist);
+    }
+
 )

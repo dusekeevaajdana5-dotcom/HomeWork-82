@@ -17,6 +17,7 @@ const rootReducer = combineReducers({
     albums: albumReducer,
     tracks: tracksReducer,
     users: persistReducer(usersPersistConfig, usersReducer),
+
 })
 
 export const store = configureStore({

@@ -6,6 +6,7 @@ import Album from "./features/albums/Album.tsx";
 import Tracks from "./features/tracks/Tracks.tsx";
 import Register from "./features/users/Register.tsx";
 import Login from "./features/users/Login.tsx";
+import NewArtist from "./features/artists/NewArtist.tsx";
 
 const  App = () => {
 
@@ -23,6 +24,7 @@ const  App = () => {
             <Route path="/albums/:albumId/tracks" element={<Tracks />} />
             <Route path="/register" element={<Register/>}/>
             <Route path= "/login" element={<Login/>}/>
+            <Route  path="/artists/new" element={<NewArtist/>}/>
         </Routes>
       </Container>
 
