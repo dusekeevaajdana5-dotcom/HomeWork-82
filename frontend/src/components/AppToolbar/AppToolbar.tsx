@@ -16,6 +16,7 @@ const AppToolbar = () => {
                     <StyledLink to="/">Artists</StyledLink>
                 </Typography>
                 <Button component={NavLink} to="/register" color="inherit">Register</Button>
+                <Button component={NavLink} to="/login" color="inherit">Sign In</Button>
             </Toolbar>
         </AppBar>
     );

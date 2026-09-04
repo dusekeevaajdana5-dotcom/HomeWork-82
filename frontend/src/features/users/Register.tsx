@@ -81,7 +81,7 @@ const Register = () => {
                     type="submit"
                     variant="contained"
                     sx={{mb: 3}}
-                    disabled={registerLoading}
+                    loading={registerLoading}
                 >
                  Register
                 </Button>
