@@ -11,17 +11,18 @@ albumRouter.get("/", async (req, res) => {
         const { artist } = req.query;
 
         if (artist) {
-            const albums = await Album.find({ artist: artist as string });
+            const albums = await Album.find({ artist: artist as string }).populate("artist", "name");
             return res.send(albums);
         }
 
 
-        const albums = await Album.find();
+        const albums = await Album.find().populate("artist", "name");
         res.send(albums);
     } catch {
         res.sendStatus(500);
     }
 });
+
 
 albumRouter.get("/:id", async (req, res) => {
     try {

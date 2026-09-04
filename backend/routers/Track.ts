@@ -8,20 +8,26 @@ const trackRouter = Router();
 
 
 trackRouter.get('/', async (req, res) => {
-     try {
-         const {album_id} = req.query;
+    try {
 
-         if (album_id) {
-             const track = await Track.findById({album: req.query.album as string});
-         }
+        const query: any = {};
 
-         const  track = await Track.find();
-         res.send(track);
+        const albumId = req.query.album || req.query.album_id;
 
-     } catch {
-         res.sendStatus(500);
-     }
+        if (albumId) {
+            query.album = albumId;
+        }
+
+
+        const tracks = await Track.find(query).sort({ number: 1 });
+
+        res.send(tracks);
+
+    } catch (e) {
+        res.sendStatus(500);
+    }
 });
+
 
 
 trackRouter.post('/', auth, async (req, res) => {

@@ -16,7 +16,16 @@ const UserSchema = new mongoose.Schema<UserInfo, UserMethods, UserModel>({
     username: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        validate: {
+            validator: async function (this: HydratedDocument<any>,value: string): Promise<boolean>{
+                if (!this.isModified('username')) return true;
+
+                const user = await User.findOne({username: value});
+                return !Boolean(user);
+            },
+            message: 'This user is already registered'
+        }
     },
     password: {
         type: String,
