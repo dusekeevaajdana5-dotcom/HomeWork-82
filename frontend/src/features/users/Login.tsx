@@ -3,10 +3,11 @@ import {selectLoginError, selectLoginLoading} from "./userSlice.ts";
 import {useNavigate} from "react-router-dom";
 import {type ChangeEvent, type SubmitEvent, useState} from "react";
 import type {LoginMutation} from "../../interfaces.ts";
-import {login} from "./usersthunks.ts";
+import {googleLogin, login} from "./usersthunks.ts";
 import {Alert, Avatar, Box, Button, Link, TextField, Typography} from "@mui/material";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import {Link as RouterLink} from "react-router";
+import {GoogleLogin} from "@react-oauth/google";
 
 const Login = () => {
     const dispatch = useAppDispatch();
@@ -36,6 +37,11 @@ const Login = () => {
         }
     };
 
+    const googleLoginHandler = async (credential : any) => {
+       await dispatch(googleLogin(credential)).unwrap();
+       navigate("/");
+    }
+
 
     return (
         <Box sx={{marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
@@ -50,6 +56,16 @@ const Login = () => {
                     {loginError.error}
                 </Alert>
             )}
+            <Box sx={{mt: 3}}>
+              <GoogleLogin
+                onSuccess={(credentialResponse) => {
+                  void  googleLoginHandler(credentialResponse.credential);
+                }}
+                onError={() => {
+                    console.log("login failed")
+                }}
+              />
+            </Box>
             <Box
                 component="form"
                 onSubmit={onSubmitHandler}

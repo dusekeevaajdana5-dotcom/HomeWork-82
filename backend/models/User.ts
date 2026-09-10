@@ -1,18 +1,18 @@
 import  { HydratedDocument, Model } from "mongoose";
 import mongoose from "mongoose";
-import { UserInfo } from "../types";
+import { UserInfo, UserInfoGoogle } from "../types";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 
 const SALT_WORK_FACTOR = 10;
 
-interface UserMethods {
+export interface UserMethods {
     generateToken(): void;
 }
 
-type UserModel = Model<UserInfo, {}, UserMethods>;
+type UserModel = Model<UserInfoGoogle, {}, UserMethods>;
 
-const UserSchema = new mongoose.Schema<UserInfo, UserMethods, UserModel>({
+const UserSchema = new mongoose.Schema<UserInfoGoogle, UserMethods, UserModel>({
     username: {
         type: String,
         required: true,
@@ -40,7 +40,13 @@ const UserSchema = new mongoose.Schema<UserInfo, UserMethods, UserModel>({
         required: true,
         enum: ["administrator", "user"],
         default: "user"
-    }
+    },
+    displayName: {
+        type: String,
+        required: true,
+    },
+    googleId: String,
+    avatar: String,
 });
 
 
@@ -64,5 +70,5 @@ UserSchema.set("toJSON", {
     }
 });
 
-const User = mongoose.model<UserInfo, UserModel>("User", UserSchema);
+const User = mongoose.model<UserInfoGoogle, UserModel>("User", UserSchema);
 export default User;

@@ -1,12 +1,12 @@
 import {useState, type MouseEvent} from "react";
-import {Button, Menu, MenuItem} from "@mui/material";
-import type {User} from "../../interfaces.ts";
+import {Avatar, Button, Menu, MenuItem} from "@mui/material";
+import type { UserMutaition} from "../../interfaces.ts";
 import {useAppDispatch} from "../../app/hooks.ts";
 import {unsetUser} from "../../features/users/userSlice.ts";
 
 
 interface Props {
-    user: User;
+    user: UserMutaition;
 }
 
 const UserMenu = ({user}: Props) => {
@@ -33,13 +33,24 @@ const UserMenu = ({user}: Props) => {
             <Button
                 onClick={handleClick}
                 color="inherit"
+                sx={{ textTransform: 'none', display: 'flex', alignItems: 'center', gap: 1.5 }}
             >
-                Hi, {user.username}
+                <span>Hi, {user.displayName || user.username}</span>
+
+                <Avatar
+                    src={user.avatar}
+                    alt={user.displayName || user.username}
+                    sx={{ width: 32, height: 32, boxShadow: 1 }}
+                >
+                    {(user.displayName || user.username).charAt(0).toUpperCase()}
+                </Avatar>
+
             </Button>
             <Menu
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
                 anchorEl={anchorEl}
+                slotProps={{ paper: { sx: { mt: 1 } } }}
             >
                 <MenuItem>Profile</MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>

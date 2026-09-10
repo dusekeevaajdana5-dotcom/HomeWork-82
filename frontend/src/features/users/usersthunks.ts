@@ -3,11 +3,11 @@ import axiosApi from "../../axiosApi.ts";
 import type {GlobalError, LoginMutation, RegisterMutation, User, ValidationError} from "../../interfaces.ts";
 import {isAxiosError} from "axios";
 
-export const register = createAsyncThunk<User, RegisterMutation, {rejectValue: ValidationError}>(
+export const register = createAsyncThunk<User, RegisterMutation, { rejectValue: ValidationError }>(
     "users/register",
     async (registerMutation, {rejectWithValue}) => {
         try {
-            const { data : user } = await axiosApi.post("/users", registerMutation );
+            const {data: user} = await axiosApi.post("/users", registerMutation);
             return user;
         } catch (error) {
             if (isAxiosError(error) && error.response && error.response.status === 400) {
@@ -18,11 +18,11 @@ export const register = createAsyncThunk<User, RegisterMutation, {rejectValue: V
     }
 );
 
-export const login = createAsyncThunk<User, LoginMutation, { rejectValue: GlobalError}>(
+export const login = createAsyncThunk<User, LoginMutation, { rejectValue: GlobalError }>(
     "users/login",
-    async(LoginMutation, {rejectWithValue}) => {
+    async (LoginMutation, {rejectWithValue}) => {
         try {
-            const { data: user } = await axiosApi.post("users/sessions", LoginMutation);
+            const {data: user} = await axiosApi.post("users/sessions", LoginMutation);
             return user;
         } catch (error) {
             if (isAxiosError(error) && error.response && error.response.status === 400) {
@@ -31,4 +31,19 @@ export const login = createAsyncThunk<User, LoginMutation, { rejectValue: Global
             throw error;
         }
     }
-)
+);
+
+export const googleLogin = createAsyncThunk<User, string, { rejectValue: GlobalError }>(
+    'users/googleLogin',
+    async (credential, {rejectWithValue}) => {
+        try {
+            const {data: user} = await axiosApi.post("users/login/google", {credential});
+            return user;
+        } catch (error) {
+            if (isAxiosError(error) && error.response && error.response.status === 400) {
+                return rejectWithValue(error.response.data);
+            }
+            throw error;
+        }
+    }
+);

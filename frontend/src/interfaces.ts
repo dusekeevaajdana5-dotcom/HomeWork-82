@@ -53,3 +53,11 @@ export interface User {
    username: string;
    token: string;
 }
+
+export interface  UserMutaition {
+   _id: string;
+   username: string;
+   token: string;
+   displayName: string;
+   avatar: string;
+}
