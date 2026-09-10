@@ -30,6 +30,12 @@ const Login = () => {
 
         try {
             await dispatch(login(state)).unwrap();
+
+            setState({
+                username: '',
+                password: '',
+            });
+
             navigate("/");
 
         } catch (e) {
@@ -39,6 +45,7 @@ const Login = () => {
 
     const googleLoginHandler = async (credential : any) => {
        await dispatch(googleLogin(credential)).unwrap();
+
        navigate("/");
     }
 

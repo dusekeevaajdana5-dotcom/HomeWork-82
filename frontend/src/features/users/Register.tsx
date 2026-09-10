@@ -5,7 +5,8 @@ import LockIcon from "@mui/icons-material/Lock";
 import {Link as RouterLink, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {selectRegisterError, selectRegisterLoading} from "./userSlice.ts";
-import {register} from "./usersthunks.ts";
+import {googleLogin, register} from "./usersthunks.ts";
+import {GoogleLogin} from "@react-oauth/google";
 
 
 const Register = () => {
@@ -29,6 +30,12 @@ const Register = () => {
 
         try {
             await dispatch(register(state)).unwrap();
+
+            setState({
+                username: '',
+                password: '',
+            });
+
             navigate("/");
 
         } catch (e) {
@@ -44,6 +51,11 @@ const Register = () => {
         }
     };
 
+    const googleRegisterHandler = async (credential : any) => {
+        await dispatch(googleLogin(credential)).unwrap();
+        navigate("/");
+    }
+
     return (
         <Box sx={{marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
         <Avatar sx={{m: 1, bgcolor: "secondary.main"}}>
@@ -52,6 +64,18 @@ const Register = () => {
             <Typography component="h1" variant="h5">
                 Register
             </Typography>
+
+            <Box sx={{mt: 3}}>
+                <GoogleLogin
+                    onSuccess={(credentialResponse) => {
+                        void  googleRegisterHandler(credentialResponse.credential);
+                    }}
+                    onError={() => {
+                        console.log("login failed")
+                    }}
+                />
+            </Box>
+
             <Box
                 component="form"
                 onSubmit={onSubmitHandler}
